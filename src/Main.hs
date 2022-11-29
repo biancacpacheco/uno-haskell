@@ -69,8 +69,7 @@ menuJogo = do
     if ((read j) /= 3 && (read j) /= 4) then do
         putStrLn "Por favor, escolha uma opção válida. \n-----------------------------"
         menuJogo
-    else
-      putStrLn "peraí"
+    else distribuiJogo (read j) geraBaralho
 
 -- o jogo:
 
@@ -99,7 +98,7 @@ distribuiJogo :: Int -> [Carta] -> IO()
 distribuiJogo numJogadores baralho
   | numJogadores == 3 = pegamao3 baralho
   | numJogadores == 4 = pegamao4 baralho
-  | otherwise         =print ""
+  | otherwise         = print ""
 
 pegamao3 :: [Carta] -> IO()
 pegamao3 baralho = do
@@ -109,7 +108,7 @@ pegamao3 baralho = do
    let brl2 = drop 7 brl1
    let mao3 = take 7 brl2
    let brl3 = drop 7 brl2
-   comecarodada ([brl4] ++ [mao1] ++ [mao2] ++ [mao3])
+   comecarodada ([brl3] ++ [mao1] ++ [mao2] ++ [mao3])
 
 pegamao4 :: [Carta] -> IO()
 pegamao4 baralho = do
