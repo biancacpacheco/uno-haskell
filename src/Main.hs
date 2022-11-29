@@ -71,3 +71,26 @@ menuJogo = do
         menuJogo
     else
       putStrLn "peraí"
+
+-- o jogo:
+
+data Cor = Vermelho | Verde | Azul | Amarelo 
+            deriving (Eq, Show, Read, Enum, Bounded)
+data ValorColorido = Zero | Um | Dois | Tres | Quatro | Cinco | Seis | Sete | Oito | Nove | MaisDois | Inverte | Bloqueio 
+            deriving (Eq, Show, Read, Enum, Bounded)
+data ValorCoringa = MaisQuatro | TrocaCor 
+            deriving (Eq, Show, Read, Enum, Bounded)
+data Carta = CartaColorida {cor :: Cor, valor :: ValorColorido} | CartaCoringa {valorCoringa :: ValorCoringa} 
+            deriving (Show)
+
+geraBaralho :: [Carta]
+geraBaralho = geraCartasColoridas ++ geraCartasCoringa
+
+geraBaralho2 :: [Carta]
+geraBaralho2 = CartaCoringa {valorCoringa = MaisQuatro} : CartaCoringa {valorCoringa = TrocaCor} : geraCartasColoridas
+
+geraCartasColoridas :: [Carta]
+geraCartasColoridas = [CartaColorida {cor = c, valor = v} | c <- [Vermelho .. Amarelo], v <- [Zero .. Bloqueio]]
+
+geraCartasCoringa :: [Carta]
+geraCartasCoringa = [CartaCoringa {valorCoringa = vc} | vc <- [MaisQuatro, TrocaCor]]
