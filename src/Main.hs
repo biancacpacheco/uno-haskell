@@ -1,4 +1,8 @@
 --menu de start!!
+
+import System.Random.Shuffle (shuffleM)
+
+
 main:: IO()
 main = do
     putStrLn("BEM-VINDO, JOGADOR! :)")
@@ -73,14 +77,10 @@ menuJogo = do
 
 -- o jogo:
 
-data Cor = Vermelho | Verde | Azul | Amarelo 
-            deriving (Eq, Show, Read, Enum, Bounded)
-data ValorColorido = Zero | Um | Dois | Tres | Quatro | Cinco | Seis | Sete | Oito | Nove | MaisDois | Inverte | Bloqueio 
-            deriving (Eq, Show, Read, Enum, Bounded)
-data ValorCoringa = MaisQuatro | TrocaCor 
-            deriving (Eq, Show, Read, Enum, Bounded)
-data Carta = CartaColorida {cor :: Cor, valor :: ValorColorido} | CartaCoringa {valorCoringa :: ValorCoringa} 
-            deriving (Show)
+data Cor = Vermelho | Verde | Azul | Amarelo deriving (Eq, Show, Read, Enum, Bounded)
+data ValorColorido = Zero | Um | Dois | Tres | Quatro | Cinco | Seis | Sete | Oito | Nove | MaisDois | Inverte | Bloqueio deriving (Eq, Show, Read, Enum, Bounded)
+data ValorCoringa = MaisQuatro | TrocaCor deriving (Eq, Show, Read, Enum, Bounded)
+data Carta = CartaColorida {cor :: Cor, valor :: ValorColorido} | CartaCoringa {valorCoringa :: ValorCoringa} deriving (Eq, Show, Read, Enum, Bounded)
 
 geraBaralho :: [Carta]
 geraBaralho = geraCartasColoridas ++ geraCartasCoringa
@@ -108,7 +108,7 @@ pegamao3 baralho = do
    let brl2 = drop 7 brl1
    let mao3 = take 7 brl2
    let brl3 = drop 7 brl2
-   comecarodada ([brl3] ++ [mao1] ++ [mao2] ++ [mao3])
+   comecaPartida [brl3, mao1, mao2, mao3]
 
 pegamao4 :: [Carta] -> IO()
 pegamao4 baralho = do
@@ -120,7 +120,33 @@ pegamao4 baralho = do
    let brl3 = drop 7 brl2
    let mao4 = take 7 brl3
    let brl4 = drop 7 brl3
-   comecarodada ([brl4] ++ [mao1] ++ [mao2] ++ [mao3] ++ [mao4])
+   comecaPartida [brl4, mao1, mao2, mao3, mao4]
    
-comecarodada:: [[Carta]] -> IO()
-comecarodada jogocompleto = print jogocompleto
+comecaPartida :: [[Carta]] -> IO()
+comecaPartida jogo = 
+    
+    if (gameOver jogo)
+        print "Fim de jogo :D"
+    else
+        jogada 
+
+jogada :: Int -> Carta -> [[Carta]] -> [[Carta]]
+
+-- saber quem eh o jogador, jogo, mesa
+
+[0] = baralho
+[1] = j1
+[2] = j2
+[3] = j3
+
+gameOver :: [[Carta]] -> Bool
+gameOver jogo = elem `[]` jogo
+
+ehCoringa :: Carta -> Bool
+ehCoringa carta
+    | carta == CartaCoringa {valorCoringa = MaisQuatro} = True
+    | carta == CartaCoringa {valorCoringa = TrocaCor} = True
+    | otherwise = False
+
+
+-- um dos jogadores nao ter carta ou o baralho ser uma lista vazia
