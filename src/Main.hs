@@ -126,8 +126,8 @@ jogada cartamesa bolo quemjoga inverteflag maos = do
   putStrLn("\n")
   if (bolo == [] || gameOver maos) then
     print("O jogaodor: " ++ show(quemjoga) ++ " ganhou!")
-  else do 
-  print ("em desenvolvimento")
+  else
+    print ("em desenvolvimento")
 
 
 
